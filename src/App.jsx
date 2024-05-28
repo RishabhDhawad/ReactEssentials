@@ -1,38 +1,20 @@
-import reactImg from './assets/react-core-concepts.png';
-import componentsImg from './assets/components.png'
+import {useState} from 'react';
+import { CORE_CONCEPTS } from './data';
+import Header from './components/Header';
+import CoreConcept from './components/CoreConcepts';
+import TabButton from './components/TabButton';
+import { EXAMPLES } from './data';
 
-const reactDescriptions = ['Fundamental', 'Crutial', 'Core'];
-
-function genRandomInt(max) {
-  return Math.floor(Math.random() * (max + 1));
-}
-
-function Header() {
-  const description = reactDescriptions[genRandomInt(2)];
-
-  return (
-    <header>
-      <img src={reactImg} alt="Stylized atom" />
-      <h1>React Essentials</h1>
-      <p>
-        {description} React concepts you will need for almost any app you are
-        going to build!
-      </p>
-    </header>
-  );
-}
-
-function CoreConcept(props) {
-  return (
-    <li>
-      <img src={props.image} alt={props.title} />
-      <h3> {props.title} </h3>
-      <p> {props.description} </p>
-    </li>
-  );
-}
 
 function App() {
+  const [ selectedTopic, setSelectedTopic ] = useState('Please click a button');
+
+  function handleSelect(selectedButton) {
+    // SelectedButton => components, jsx, props, state
+    setSelectedTopic(selectedButton);
+    // console.log(selectedTopic);
+  }
+
   return (
     <div>
       <Header />
@@ -41,14 +23,41 @@ function App() {
           <h2>Core Concept</h2>
           <ul>
             <CoreConcept 
-            title= "Components"
-            description="The Core UI building block."
-            image = {componentsImg} 
+            title= {CORE_CONCEPTS[0].title}
+            description= {CORE_CONCEPTS[0].description}
+            image = {CORE_CONCEPTS[0].image} 
+            />
+            <CoreConcept {...CORE_CONCEPTS[1]}
+            />
+            <CoreConcept {...CORE_CONCEPTS[2]}
+            />
+            <CoreConcept {...CORE_CONCEPTS[3]}
             />
           </ul>
         </section>
-        <h2>Time to get started!</h2>
-      </main>d
+        
+        <section id='examples'>
+          <h2>Examples</h2>
+          <menu>
+            <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
+            <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+            <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
+            <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
+          </menu>
+          
+          {/* <div>
+            <h3> {EXAMPLES[selectedTopic].title} </h3>
+            <p></p>
+            <pre>
+              <code>
+                
+              </code>
+            </pre>
+          </div> */}
+
+        </section>
+      
+      </main>
     </div>
   );
 }
